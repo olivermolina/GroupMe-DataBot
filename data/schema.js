@@ -1,19 +1,20 @@
 const typeDefinitions = `
-type Author {
-    id: Int
-    firstName: String
-    lastName: String
-    posts: [Post]
+
+type Group {
+   id: Int
+   group_id: Int
+   name: String
+   members: [Member]
 }
 
-type Post {
-    id: Int
-    title: String
-    text: String
+type Member {
+   id: Int
+   user_id: Int
+   nickname: String
 }
 
 type Query{
-    author(firstName: String, lastName: String): Author
+    group(token: String!): Group
 }
 
 schema {

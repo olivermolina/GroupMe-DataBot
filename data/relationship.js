@@ -1,8 +1,16 @@
 
 export const groupRelationship = () => {
     return {
-        async members(group){
-            return group.members;
+        async members(data){
+            return data.members;
+        }
+    }
+}
+
+export const messagesRelationship = () => {
+    return {
+        async messages(data){
+            return data.messages;
         }
     }
 }

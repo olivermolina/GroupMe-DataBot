@@ -6,13 +6,12 @@ import Resolvers from './data/resolvers';
 
 // import Mocks from './data/mocks';
 
-const GRAPHQL_PORT = 5000;
+const GRAPHQL_PORT = (process.env.PORT || 5000);
 const WS_PORT = 8080;
 
 const graphQLServer = express();
 const corsOptions = {
     origin(origin, callback){
-        // const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
         callback(null, true);
     },
     credentials: true

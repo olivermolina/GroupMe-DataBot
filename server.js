@@ -32,6 +32,11 @@ graphQLServer.all('/callback', function (req, res, next) {
 });
 
 graphQLServer.use(cors(corsOptions));
-graphQLServer.listen(GRAPHQL_PORT, () => console.log(
-    `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql if local else `, graphQLServer.get('port')
-));
+
+// graphQLServer.listen(GRAPHQL_PORT, () => console.log(
+//     `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql if local else `
+// ));
+
+graphQLServer.listen(graphQLServer.get('port'), function() {
+    console.log('Node app is running on port', graphQLServer.get('port'));
+});

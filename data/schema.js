@@ -12,6 +12,23 @@ type Member {
    nickname: String
 }
 
+type MessageSummary {
+    count: String!
+    messages: [Message]
+}
+
+type Message {
+   id: String!
+   group_id: String!
+   user_id: String!
+   name: String!
+   text: String!
+   avatar_url: String!
+   created_at: String!
+   sender_type: String!
+   system: String!
+}
+
 type Bot {
    bot_id: String!
    name: String!
@@ -21,19 +38,20 @@ type Bot {
 }
 
 
-type Message {
+type BotMessage {
    id: Int!
    bot_id: String!
    text: String!
 }
 
 type Query{
-    group(token: String!): Group
+    group(token: String!): Group 
     bots(token: String!): [Bot]
+    messages(token: String!, group_id: Int!): MessageSummary
 }
  
 type Mutation{
-    sendBotMessage(token: String!, bot_id: String!, text: String!): Message
+    sendBotMessage(token: String!, bot_id: String!, text: String!): BotMessage
 }
 
 schema {

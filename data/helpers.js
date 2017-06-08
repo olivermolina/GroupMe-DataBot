@@ -25,6 +25,16 @@ export const getBots = () => {
     }
 }
 
+export const getMessages = () => {
+    return async (_, args) => {
+        console.log("Function: getMessages");
+        let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
+        let response = data.response;
+        console.log(response);
+        return response;
+    }
+}
+
 
 export const sendBotMessage = () => {
     return async (_, args) => {
@@ -51,12 +61,12 @@ export const callGroupMe = async (subUri, token, request_type, formData) => {
 
     let uri = GROUP_ME_BASE_URL + subUri + "?token=" + token;
     console.log(uri);
-    console.log(formData);
     let requestObject = {
         url: uri,
         method: request_type,
     }
     if (request_type === "POST") {
+        console.log(formData);
         requestObject.form = formData;
         requestObject.json = true;
     }

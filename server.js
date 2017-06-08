@@ -6,7 +6,7 @@ import Resolvers from './data/resolvers';
 
 // import Mocks from './data/mocks';
 
-const GRAPHQL_PORT = 3000;
+const GRAPHQL_PORT = 5000;
 const WS_PORT = 8080;
 
 const graphQLServer = express();

@@ -2,8 +2,9 @@ const request = require('request');
 const GROUP_ME_BASE_URL = "https://api.groupme.com/v3/";
 
 export const getGroupDetails = () => {
-    return async(_, args) => {
-        let data = JSON.parse(await callGroupMe("groups", args.token));
+    return async (_, args) => {
+        console.log("Function: getGroupDetails");
+        let data = JSON.parse(await callGroupMe("groups", args.token, "GET", {}));
         let response = data.response[0];
         let group = {
             id: response.id,
@@ -15,22 +16,61 @@ export const getGroupDetails = () => {
     }
 }
 
-export const callGroupMe = async (subUri, token) => {
+export const getBots = () => {
+    return async (_, args) => {
+        console.log("Function: getBots");
+        let data = JSON.parse(await callGroupMe("bots", args.token, "GET", {}));
+        let response = data.response;
+        return response;
+    }
+}
+
+
+export const sendBotMessage = () => {
+    return async (_, args) => {
+        console.log("Function: sendBotMessage");
+        let formData = {
+            bot_id: args.bot_id,
+            text: args.text
+        };
+        let data = await callGroupMe("bots/post", args.token, "POST", formData);
+
+        let message = {
+            id: 1,
+            bot_id: args.bot_id,
+            text: args.text
+        };
+
+
+        return message;
+    }
+}
+
+export const callGroupMe = async (subUri, token, request_type, formData) => {
     console.log("Calling GroupMe API...");
 
     let uri = GROUP_ME_BASE_URL + subUri + "?token=" + token;
-
     console.log(uri);
+    console.log(formData);
+    let requestObject = {
+        url: uri,
+        method: request_type,
+    }
+    if (request_type === "POST") {
+        requestObject.form = formData;
+        requestObject.json = true;
+    }
+
+    console.log(requestObject);
 
     return new Promise(function (resolve, reject) { //can't get 'await' to work with 'request'
-        request({
-            url: uri,
-            method: 'GET'
-        }, (error, response, body) => {
+        request(requestObject, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-                resolve(body || response)
+                resolve(body || response);
             } else {
-                reject("Error " + (String(response.statusCode) || String(error)))
+                console.log("Response:" + response);
+                console.log("Error: " + error);
+                resolve({error: "Empty Response"});
             }
         })
     });

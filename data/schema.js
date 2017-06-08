@@ -27,6 +27,7 @@ type Message {
    created_at: String!
    sender_type: String!
    system: String!
+   favorited_by: String!
 }
 
 type Bot {

@@ -30,7 +30,6 @@ export const getMessages = () => {
         console.log("Function: getMessages");
         let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
         let response = data.response;
-        console.log(response);
         return response;
     }
 }
@@ -60,7 +59,6 @@ export const callGroupMe = async (subUri, token, request_type, formData) => {
     console.log("Calling GroupMe API...");
 
     let uri = GROUP_ME_BASE_URL + subUri + "?token=" + token;
-    console.log(uri);
     let requestObject = {
         url: uri,
         method: request_type,

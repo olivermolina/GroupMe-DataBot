@@ -11,17 +11,20 @@ export const testGraphMe = function () {
 
 }
 
-export const postBotMesasge = function (req) {
+export const postBotMessage = function (req) {
     let opts = {
         picture_url: "",
     }
 
+    let sender_type = req.body.sender_type;
 
-    // API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello, this is an automated reply again!",opts, function (err, ret) {
-    //     if (!err) {
-    //         console.log("Bot message has been sent");
-    //     }
-    // });
+    if ("user" === sender_type) {
+        API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello, this is an automated reply for the users only! :)", opts, function (err, ret) {
+            if (!err) {
+                console.log("Bot message has been sent");
+            }
+        });
+    }
 
 }
 

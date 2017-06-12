@@ -3,6 +3,7 @@ import cors from 'cors';
 import {apolloServer} from 'apollo-server';
 import Schema from './data/schema';
 import Resolvers from './data/resolvers';
+import  {postBotMesasge} from './data/GraphMeUtils';
 
 // import Mocks from './data/mocks';
 
@@ -16,6 +17,7 @@ const corsOptions = {
     },
     credentials: true
 };
+
 graphQLServer.use('/graphql', apolloServer({
     graphiql: true,
     pretty: true,
@@ -33,7 +35,8 @@ graphQLServer.all('/', function (req, res, next) {
 
 graphQLServer.get('/callback', function (req, res, next) {
     res.send('Sending updates to server...');
-    return next();
+    postBotMesasge();
+    return;
 })
 
 graphQLServer.use(cors(corsOptions));

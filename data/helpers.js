@@ -4,14 +4,7 @@ const GROUP_ME_BASE_URL = "https://api.groupme.com/v3/";
 export const getGroupDetails = () => {
     return async (_, args) => {
         console.log("Function: getGroupDetails");
-        let data = JSON.parse(await callGroupMe("groups", args.token, "GET", {}));
-        let response = data.response[0];
-        let group = {
-            id: response.id,
-            group_id: response.group_id,
-            name: response.name,
-            members: response.members
-        };
+        let group = await callGroupDetails(args.token);
         return group;
     }
 }
@@ -31,6 +24,33 @@ export const getMessages = () => {
         let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
         let response = data.response;
         return response;
+    }
+}
+
+export const getWordCount = () => {
+    return async (_, args) => {
+        console.log("Function: getMessages");
+        let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
+        let response = data.response;
+
+
+        let count = 0;
+        let messages = response.messages;
+        for (let i = 0; i < messages.length; i++) {
+            let message = messages[i];
+            let text = message.text;
+            if (text.includes(args.word)) {
+                count++;
+            }
+        }
+
+        let groupDetails = await callGroupDetails(args.token);
+        let output = {
+            group_name: groupDetails.name,
+            word: args.word,
+            count: count
+        }
+        return output;
     }
 }
 
@@ -82,4 +102,18 @@ export const callGroupMe = async (subUri, token, request_type, formData) => {
             }
         })
     });
-};
+}
+
+export const callGroupDetails = async (token) => {
+    let data = JSON.parse(await callGroupMe("groups", token, "GET", {}));
+    let response = data.response[0];
+    let group = {
+        id: response.id,
+        group_id: response.group_id,
+        name: response.name,
+        members: response.members
+    };
+    return group;
+}
+
+

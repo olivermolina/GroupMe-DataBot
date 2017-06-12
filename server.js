@@ -24,12 +24,17 @@ graphQLServer.use('/graphql', apolloServer({
     // mocks: Mocks,
 }));
 
-graphQLServer.all('/callback', function (req, res, next) {
+graphQLServer.all('/', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With');
     res.header('Access-Control-Allow-Methods', 'GET');
     return next();
 });
+
+graphQLServer.get('/callback', function (req, res, next) {
+    res.send('Sending updates to server...');
+    return next();
+})
 
 graphQLServer.use(cors(corsOptions));
 

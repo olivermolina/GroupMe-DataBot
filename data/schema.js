@@ -45,10 +45,17 @@ type BotMessage {
    text: String!
 }
 
+type WordCount {
+   group_name: String!
+   word: String!
+   count: Int!
+}
+
 type Query{
     group(token: String!): Group 
     bots(token: String!): [Bot]
     messages(token: String!, group_id: Int!): MessageSummary
+    wordCount(token: String!, group_id: Int!, word: String!): WordCount
 }
  
 type Mutation{

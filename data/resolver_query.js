@@ -6,5 +6,6 @@ export const resolver_query = function () {
         group: helpers.getGroupDetails(),
         bots: helpers.getBots(),
         messages: helpers.getMessages(),
+        wordCount: helpers.getWordCount(),
     }
 }

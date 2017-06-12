@@ -51,11 +51,17 @@ type WordCount {
    count: Int!
 }
 
+type LastSeen {
+    username: String!
+    last_seen: String!
+}
+
 type Query{
     group(token: String!): Group 
     bots(token: String!): [Bot]
     messages(token: String!, group_id: Int!): MessageSummary
     wordCount(token: String!, group_id: Int!, word: String!): WordCount
+    lastSeen(token: String!, group_id: Int!, username: String!): LastSeen
 }
  
 type Mutation{

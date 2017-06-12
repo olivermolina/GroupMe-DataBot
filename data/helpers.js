@@ -21,21 +21,17 @@ export const getBots = () => {
 export const getMessages = () => {
     return async (_, args) => {
         console.log("Function: getMessages");
-        let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
-        let response = data.response;
+        let response = await callGetMessages(args);
         return response;
     }
 }
 
 export const getWordCount = () => {
     return async (_, args) => {
-        console.log("Function: getMessages");
-        let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
-        let response = data.response;
-
-
-        let count = 0;
+        console.log("Function: getWordCount");
+        let response = await callGetMessages(args);
         let messages = response.messages;
+        let count = 0;
         for (let i = 0; i < messages.length; i++) {
             let message = messages[i];
             let text = message.text;
@@ -116,4 +112,53 @@ export const callGroupDetails = async (token) => {
     return group;
 }
 
+
+export const callGetMessages = async (args) => {
+    let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
+    let response = data.response;
+    return response;
+}
+
+export const getUserLastSeen = () => {
+    return async (_, args) => {
+        console.log("Function: getUserLastSeen");
+        let groupDetails = await callGroupDetails(args.token);
+        let members = groupDetails.members;
+        let user_id = 0;
+        for (let member of members) {
+            console.log(member.nickname);
+            if (args.username === member.nickname) {
+                user_id = member.user_id;
+                break;
+            }
+        }
+
+        if (user_id === 0) {
+            let error = {
+                code: 1001,
+                message: "User name not found."
+            }
+
+            throw error;
+        }
+
+
+        let response = await callGetMessages(args);
+
+        let messages = response.messages;
+
+        let last_seen = 0;
+        for (let message of messages) {
+            if(user_id === message.user_id) {
+                last_seen = message.created_at;
+            }
+        }
+
+        let output = {
+            username: args.username,
+            last_seen: new Date(last_seen)
+        };
+        return output;
+    }
+}
 

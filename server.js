@@ -39,6 +39,12 @@ graphQLServer.get('/callback', function (req, res, next) {
     return;
 })
 
+graphQLServer.post('/callback', function (req, res, next) {
+    res.send('Sending updates to server...');
+    postBotMesasge();
+    return;
+})
+
 graphQLServer.use(cors(corsOptions));
 
 graphQLServer.listen(GRAPHQL_PORT, () => console.log(

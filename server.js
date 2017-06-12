@@ -35,13 +35,14 @@ graphQLServer.all('/', function (req, res, next) {
 
 graphQLServer.get('/callback', function (req, res, next) {
     res.send('Sending updates to server...');
-    postBotMesasge();
+    postBotMesasge(req);
     return;
 })
 
+
 graphQLServer.post('/callback', function (req, res, next) {
     res.send('Sending updates to server...');
-    postBotMesasge();
+    postBotMesasge(req);
     return;
 })
 

@@ -11,16 +11,18 @@ export const testGraphMe = function () {
 
 }
 
-export const postBotMesasge = function () {
+export const postBotMesasge = function (req) {
     let opts = {
         picture_url: "",
     }
 
-    API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello, this is an automated reply again!",opts, function (err, ret) {
-        if (!err) {
-            console.log("Bot message has been sent");
-        }
-    });
+    console.log(req);
+
+    // API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello, this is an automated reply again!",opts, function (err, ret) {
+    //     if (!err) {
+    //         console.log("Bot message has been sent");
+    //     }
+    // });
 
 }
 

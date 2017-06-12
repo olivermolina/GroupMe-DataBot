@@ -8,5 +8,6 @@ export const resolver_query = function () {
         messages: helpers.getMessages(),
         wordCount: helpers.getWordCount(),
         lastSeen: helpers.getUserLastSeen(),
+        heartCount: helpers.getHeartCount(),
     }
 }

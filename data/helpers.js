@@ -149,7 +149,7 @@ export const getUserLastSeen = () => {
 
         let last_seen = 0;
         for (let message of messages) {
-            if(user_id === message.user_id) {
+            if (user_id === message.user_id) {
                 last_seen = message.created_at;
             }
         }
@@ -162,3 +162,29 @@ export const getUserLastSeen = () => {
     }
 }
 
+export const getHeartCount = () => {
+    return async (_, args) => {
+        console.log("Function: getUserLastSeen");
+        let groupDetails = await callGroupDetails(args.token);
+        let members = groupDetails.members;
+        let response = await callGetMessages(args);
+        let messages = response.messages;
+        let heartCounts = [];
+        for (let member of members) {
+            let count = 0;
+            for (let message of messages) {
+                if (member.user_id == message.user_id) {
+                    count += message.favorited_by.length;
+                }
+            }
+
+            let heartCount = {
+                username: member.nickname,
+                count: count
+            }
+            heartCounts.push(heartCount);
+        }
+
+        return heartCounts;
+    }
+}

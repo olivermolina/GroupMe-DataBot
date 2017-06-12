@@ -16,7 +16,6 @@ export const postBotMesasge = function (req) {
         picture_url: "",
     }
 
-    console.log(req.body);
 
     // API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello, this is an automated reply again!",opts, function (err, ret) {
     //     if (!err) {

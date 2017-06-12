@@ -4,6 +4,7 @@ import {apolloServer} from 'apollo-server';
 import Schema from './data/schema';
 import Resolvers from './data/resolvers';
 import  {postBotMesasge} from './data/GraphMeUtils';
+import bodyParser from 'body-parser';
 
 // import Mocks from './data/mocks';
 
@@ -39,10 +40,16 @@ graphQLServer.get('/callback', function (req, res, next) {
     return;
 })
 
+graphQLServer.use(bodyParser.json());       // to support JSON-encoded bodies
+graphQLServer.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
 
 graphQLServer.post('/callback', function (req, res, next) {
     res.send('Sending updates to server...');
-    postBotMesasge(req);
+
+    console.log(req.body);
+    // postBotMesasge(req);
     return;
 })
 

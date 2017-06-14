@@ -17,15 +17,22 @@ export const postBotMessage = function (req) {
     }
 
     let sender_type = req.body.sender_type;
+    let text = req.body.text;
 
-    if ("user" === sender_type) {
-        API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello, this is an automated reply for the users only! :)", opts, function (err, ret) {
+
+    if ("bot" === sender_type) {
+        console.log("No action..");
+        return;
+    }
+
+    if ("user" === sender_type && (text.includes("Hi") || text.includes("Hello") || text.includes("hello"))) {
+
+        API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello to you!", opts, function (err, ret) {
             if (!err) {
-                console.log("Bot message has been sent");
+                console.log("Bot sent a hello text.");
             }
         });
     }
-
 }
 
 

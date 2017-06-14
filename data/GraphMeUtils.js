@@ -21,11 +21,12 @@ export const postBotMessage = function (req) {
 
     if ("bot" === sender_type) {
         console.log("No action..");
-        return;
     }
 
     if ("user" === sender_type && ['Hi', 'Hello', 'hi', 'hello'].includes(text)) {
-        API.Bots.post(ACCESS_TOKEN, BOT_ID, "Hello to you!", opts, function (err, ret) {
+        let randomText = ["Hello to you!", "Hi!", "Hola!"];
+        let id = Math.round(Math.random() * (randomText.length - 1));
+        API.Bots.post(ACCESS_TOKEN, BOT_ID, randomText[id], opts, function (err, ret) {
             if (!err) {
                 console.log("Bot sent a hello text.");
             }

@@ -39,22 +39,12 @@ graphQLServer.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
-graphQLServer.get('/callback', function (req, res, next) {
-    res.send('Sending updates to server...');
-    postBotMessage(req);
-    return;
-})
-
 graphQLServer.post('/callback', function (req, res, next) {
     res.send('Sending updates to server...');
-
-    console.log(req.body);
     postBotMessage(req);
-    return next();
 })
 
 graphQLServer.use(cors(corsOptions));
-
 graphQLServer.listen(GRAPHQL_PORT, () => console.log(
     `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql`
 ));

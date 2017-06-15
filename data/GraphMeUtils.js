@@ -63,6 +63,10 @@ export const postBotMessage = async function (req) {
 
         console.log("Total words: " + totalWords);
 
+        let opts = {
+            picture_url: "",
+        }
+
         let botMessage = "Total words of all time: " + totalWords;
         API.Bots.post(ACCESS_TOKEN, BOT_ID, botMessage, opts, function (err, ret) {
             if (!err) {

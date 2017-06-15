@@ -2,7 +2,7 @@ const request = require('request');
 const GROUP_ME_BASE_URL = "https://api.groupme.com/v3/";
 
 export const getGroupDetails = () => {
-    return async (_, args) => {
+        return async (_, args) => {
         console.log("Function: getGroupDetails");
         let group = await callGroupDetails(args.token);
         return group;
@@ -71,10 +71,14 @@ export const sendBotMessage = () => {
     }
 }
 
-export const callGroupMe = async (subUri, token, request_type, formData) => {
+export const callGroupMe = async (subUri, token, request_type, formData, before_id) => {
     console.log("Calling GroupMe API...");
 
-    let uri = GROUP_ME_BASE_URL + subUri + "?token=" + token;
+    let uri = GROUP_ME_BASE_URL + subUri + "?limit=100&token=" + token;
+    if (before_id > 0) {
+        uri = uri + "&before_id=" + before_id;
+    }
+
     let requestObject = {
         url: uri,
         method: request_type,
@@ -114,7 +118,7 @@ export const callGroupDetails = async (token) => {
 
 
 export const callGetMessages = async (args) => {
-    let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}));
+    let data = JSON.parse(await callGroupMe("groups/" + args.group_id + "/messages", args.token, "GET", {}, args.before_id));
     let response = data.response;
     return response;
 }

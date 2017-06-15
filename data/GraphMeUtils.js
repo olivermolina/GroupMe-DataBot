@@ -23,13 +23,30 @@ export const postBotMessage = async function (req) {
         let id = Math.round(Math.random() * (randomText.length - 1));
         botMessage = randomText[id];
         consoleMessage = "Bot sent hi reply.";
-    }
-
-    if ("user" === sender_type && text.includes("/wordcount")) {
+    } else if ("user" === sender_type && text.includes("/wordcount")) {
         let messages = await getAllMessages();
         let totalWords = await countWords(messages);
         botMessage = "Total words of all time: " + totalWords;
         consoleMessage = "Bot sent a word count reply.";
+    }  else if ("user" === sender_type && text.includes("/hearts")) {
+        let messages = await getAllMessages();
+        let groupDetails = await helpers.callGroupDetails(ACCESS_TOKEN);
+        let members = groupDetails.members;
+        let heartCounts = [];
+        for (let member of members) {
+            let count = 0;
+            for (let message of messages) {
+                if (member.user_id == message.user_id) {
+                    count += message.favorited_by.length;
+                }
+            }
+
+            let heartCount = member.nickname + ":" + count;
+            heartCounts.push(heartCount);
+        }
+
+        botMessage = heartCounts.toString();
+        consoleMessage = "Bot sent a heart count reply.";
     }
 
     if (botMessage) {
@@ -39,6 +56,7 @@ export const postBotMessage = async function (req) {
         API.Bots.post(ACCESS_TOKEN, BOT_ID, botMessage, opts, function (err, ret) {
             if (!err) {
                 console.log(consoleMessage);
+                console.log(botMessage);
             }
         });
     }

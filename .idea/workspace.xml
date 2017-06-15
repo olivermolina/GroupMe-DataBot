@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3a5c3ce-83e3-4b21-ae89-8655bde3cad6" name="Default" comment="automatic reply - post">
+    <list default="true" id="a3a5c3ce-83e3-4b21-ae89-8655bde3cad6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/GraphMeUtils.js" afterPath="$PROJECT_DIR$/data/GraphMeUtils.js" />
     </list>
@@ -21,8 +21,8 @@
       <file leaf-file-name="GraphMeUtils.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data/GraphMeUtils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="217">
+              <caret line="52" column="20" lean-forward="true" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -31,8 +31,8 @@
       <file leaf-file-name="helpers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/helpers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-814">
-              <caret line="119" column="13" lean-forward="false" selection-start-line="119" selection-start-column="13" selection-end-line="119" selection-end-column="13" />
+            <state relative-caret-position="393">
+              <caret line="190" column="0" lean-forward="true" selection-start-line="171" selection-start-column="8" selection-end-line="190" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -56,6 +56,7 @@
       <find>console</find>
       <find>babel-node</find>
       <find>babel</find>
+      <find>getHeartCount</find>
     </findStrings>
     <replaceStrings>
       <replace>'</replace>
@@ -80,10 +81,10 @@
         <option value="$PROJECT_DIR$/data/resolvers.js" />
         <option value="$PROJECT_DIR$/data/relationship.js" />
         <option value="$PROJECT_DIR$/data/schema.js" />
-        <option value="$PROJECT_DIR$/data/helpers.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/data/helpers.js" />
         <option value="$PROJECT_DIR$/data/GraphMeUtils.js" />
       </list>
     </option>
@@ -471,11 +472,32 @@
       <option name="project" value="LOCAL" />
       <updated>1497500506858</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="refacto code">
+      <created>1497502033751</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1497502033751</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix bot empty response">
+      <created>1497502372190</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1497502372190</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fix bot empty response">
+      <created>1497502753237</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1497502753237</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29945000" />
+    <option name="totallyTimeSpent" value="31889000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -550,7 +572,9 @@
     <MESSAGE value="refix package.json" />
     <MESSAGE value="set server settings" />
     <MESSAGE value="word count" />
-    <option name="LAST_COMMIT_MESSAGE" value="word count" />
+    <MESSAGE value="refacto code" />
+    <MESSAGE value="fix bot empty response" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bot empty response" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -664,7 +688,7 @@
         <state relative-caret-position="68">
           <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -710,7 +734,7 @@
         <state relative-caret-position="68">
           <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -821,7 +845,7 @@
         <state relative-caret-position="17">
           <caret line="1" column="43" lean-forward="true" selection-start-line="1" selection-start-column="43" selection-end-line="1" selection-end-column="43" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -921,23 +945,23 @@
         <state relative-caret-position="223">
           <caret line="43" column="12" lean-forward="true" selection-start-line="43" selection-start-column="12" selection-end-line="43" selection-end-column="12" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-814">
-          <caret line="119" column="13" lean-forward="false" selection-start-line="119" selection-start-column="13" selection-end-line="119" selection-end-column="13" />
+        <state relative-caret-position="393">
+          <caret line="190" column="0" lean-forward="true" selection-start-line="171" selection-start-column="8" selection-end-line="190" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/GraphMeUtils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="217">
+          <caret line="52" column="20" lean-forward="true" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
           <folding />
         </state>
       </provider>

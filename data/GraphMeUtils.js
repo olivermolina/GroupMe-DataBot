@@ -32,7 +32,7 @@ export const postBotMessage = async function (req) {
         consoleMessage = "Bot sent a word count reply.";
     }
 
-    if (!botMessage ) {
+    if (botMessage) {
         let opts = {
             picture_url: "",
         }

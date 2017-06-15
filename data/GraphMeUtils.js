@@ -56,6 +56,21 @@ export const postBotMessage = async function (req) {
 
         botMessage = heartCounts.toString();
         consoleMessage = "Bot sent a heart count reply.";
+    } else if ("user" === sender_type && text.includes("/lastseen")) {
+        let groupDetails = await helpers.callGroupDetails(ACCESS_TOKEN);
+        let members = groupDetails.members;
+        let user_id = req.body.attachments[0].user_ids[0];
+
+        let last_seen = 0;
+        let messages = await getAllMessages();
+        for (let message of messages) {
+            if (user_id === message.user_id) {
+                last_seen = message.created_at;
+            }
+        }
+
+        botMessage = last_seen;
+        consoleMessage = "Bot sent a last seen timestamp reply.";
     }
 
     if (botMessage) {

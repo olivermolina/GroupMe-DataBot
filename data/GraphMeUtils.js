@@ -9,6 +9,8 @@ import * as helpers from "./helpers";
 export const postBotMessage = async function (req) {
     console.log("Request Payload");
     console.log(req.body);
+    let consoleMessage = "";
+    let botMessage = "";
     let sender_type = req.body.sender_type;
     let text = req.body.text;
 
@@ -19,72 +21,69 @@ export const postBotMessage = async function (req) {
     if ("user" === sender_type && ['Hi', 'Hello', 'hi', 'hello'].includes(text)) {
         let randomText = ["Hello to you!", "Hi!", "Hola!"];
         let id = Math.round(Math.random() * (randomText.length - 1));
-
-        let opts = {
-            picture_url: "",
-        }
-        API.Bots.post(ACCESS_TOKEN, BOT_ID, randomText[id], opts, function (err, ret) {
-            if (!err) {
-                console.log("Bot sent a hello text.");
-            }
-        });
+        botMessage = randomText[id];
+        consoleMessage = "Bot sent hi reply.";
     }
 
     if ("user" === sender_type && text.includes("/wordcount")) {
-        let totalWords = 0;
-        const limit = 100;
-        console.log("Get messages.");
-        let messageTemp = await helpers.callGetMessages({group_id: GROUP_ID, token: ACCESS_TOKEN, before_id: 0});
-        let messageCount = messageTemp.count;
+        let messages = await getAllMessages();
+        let totalWords = await countWords(messages);
+        botMessage = "Total words of all time: " + totalWords;
+        consoleMessage = "Bot sent a word count reply.";
+    }
 
-        console.log(messageTemp.count);
-        console.log(messageTemp.messages.length);
-        totalWords = await countWords(messageTemp);
-        if (messageCount > limit) {
-            let beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
-
-
-            for (let i = limit; i < messageCount; i += limit) {
-                console.log("Before ID: " + beforeId + " Count: " + i);
-                if (i >= limit) {
-                    messageTemp = await helpers.callGetMessages({
-                        group_id: GROUP_ID,
-                        token: ACCESS_TOKEN,
-                        before_id: beforeId
-                    });
-                    console.log("Next message count: " + messageTemp.count + " -- " + messageTemp.messages.length);
-                    beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
-                    totalWords += await countWords(messageTemp);
-                }
-            }
-        }
-
-        console.log("Get messages done.");
-
-        console.log("Total words: " + totalWords);
-
+    if (!botMessage ) {
         let opts = {
             picture_url: "",
         }
-
-        let botMessage = "Total words of all time: " + totalWords;
         API.Bots.post(ACCESS_TOKEN, BOT_ID, botMessage, opts, function (err, ret) {
             if (!err) {
-                console.log("Bot sent a word count reply.");
+                console.log(consoleMessage);
             }
         });
     }
+
 }
 
-export const countWords = async function (messageTemp) {
+
+export const getAllMessages = async function () {
+    let messages = [];
+    const limit = 100;
+    console.log("Get messages.");
+    let messageTemp = await helpers.callGetMessages({group_id: GROUP_ID, token: ACCESS_TOKEN, before_id: 0});
+    let messageCount = messageTemp.count;
+    messages.push(messageTemp.messages);
+
+    console.log(messageTemp.count);
+    console.log(messageTemp.messages.length);
+    if (messageCount > limit) {
+        let beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
+        for (let i = limit; i < messageCount; i += limit) {
+            console.log("Before ID: " + beforeId + " Count: " + i);
+            if (i >= limit) {
+                messageTemp = await helpers.callGetMessages({
+                    group_id: GROUP_ID,
+                    token: ACCESS_TOKEN,
+                    before_id: beforeId
+                });
+                console.log("Next message count: " + messageTemp.count + " -- " + messageTemp.messages.length);
+                beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
+                messages.push(messageTemp.messages);
+            }
+        }
+    }
+    console.log("Get messages done.");
+    console.log("Total messages: " + messages.length);
+    return messages;
+}
+
+export const countWords = async function (messages) {
     let totalWords = 0;
-    for (let message of messageTemp.messages) {
+    for (let message of messages) {
         let text = message.text;
         totalWords += text.trim().split(/\s+/).length;
     }
-    console.log("Count Words: " + totalWords);
-
-    return totalWords
+    return totalWords;
 
 }
 

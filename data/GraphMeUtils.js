@@ -24,14 +24,14 @@ export const postBotMessage = async function (req) {
         botMessage = randomText[id];
         consoleMessage = "Bot sent hi reply.";
     } else if ("user" === sender_type && text.includes("/wordcount")) {
-        let textArray =text.split(" ");
+        let textArray = text.split(" ");
         let messages = await getAllMessages();
 
         console.log(textArray.length);
         if (textArray.length > 1) {
             let word = textArray[1];
             let wordCount = await groupMeWordCount(messages, word);
-            botMessage =  "\"" + word + "\" was said " + wordCount.toString() + " times";
+            botMessage = "\"" + word + "\" was said " + wordCount.toString() + " times";
         } else {
             let totalWords = countWords(messages);
             botMessage = "Total words of all time: " + totalWords;
@@ -57,19 +57,19 @@ export const postBotMessage = async function (req) {
         botMessage = heartCounts.toString();
         consoleMessage = "Bot sent a heart count reply.";
     } else if ("user" === sender_type && text.includes("/lastseen")) {
-        let groupDetails = await helpers.callGroupDetails(ACCESS_TOKEN);
-        let members = groupDetails.members;
         let user_id = req.body.attachments[0].user_ids[0];
-
         let last_seen = 0;
         let messages = await getAllMessages();
+        console.log(user_id);
         for (let message of messages) {
             if (user_id === message.user_id) {
                 last_seen = message.created_at;
+                break;
             }
         }
-
-        botMessage = last_seen;
+        console.log(last_seen);
+        let dateF = new Date(last_seen * 1000);
+        botMessage = dateF.toUTCString();
         consoleMessage = "Bot sent a last seen timestamp reply.";
     }
 
@@ -110,7 +110,7 @@ export const getAllMessages = async function () {
                 });
                 console.log("Next message count: " + messageTemp.count + " -- " + messageTemp.messages.length);
                 beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
-                 Array.prototype.push.apply(messages, messageTemp.messages);
+                Array.prototype.push.apply(messages, messageTemp.messages);
             }
         }
     }

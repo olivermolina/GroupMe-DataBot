@@ -31,40 +31,56 @@ export const postBotMessage = async function (req) {
     }
 
     if ("user" === sender_type && text.includes("/wordcount")) {
-        let count = 0;
+        let totalWords = 0;
         const limit = 100;
         console.log("Get messages.");
         let messageTemp = await helpers.callGetMessages({group_id: GROUP_ID, token: ACCESS_TOKEN, before_id: 0});
         let messageCount = messageTemp.count;
+
+        console.log(messageTemp.count);
+        console.log(messageTemp.messages.length);
+        totalWords = await countWords(messageTemp);
         if (messageCount > limit) {
             let beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
+
+
             for (let i = limit; i < messageCount; i += limit) {
                 console.log("Before ID: " + beforeId + " Count: " + i);
-                messageTemp = i === limit ? messageTemp : await helpers.callGetMessages({
-                    group_id: GROUP_ID,
-                    token: ACCESS_TOKEN,
-                    before_id: beforeId
-                });
-                beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
-                for (let message of messageTemp) {
-                    let text = message.text;
-                    count += text.trim().split(/\s+/).length;
+                if (i >= limit) {
+                    messageTemp = await helpers.callGetMessages({
+                        group_id: GROUP_ID,
+                        token: ACCESS_TOKEN,
+                        before_id: beforeId
+                    });
+                    console.log("Next message count: " + messageTemp.count + " -- " + messageTemp.messages.length);
+                    beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
+                    totalWords += await countWords(messageTemp);
                 }
             }
         }
 
-        console.log(messageTemp.count);
-        console.log(messageTemp.messages.length);
         console.log("Get messages done.");
 
-        // let botMessage = "Total words of all time: " + count;
-        // API.Bots.post(ACCESS_TOKEN, BOT_ID, botMessage, opts, function (err, ret) {
-        //     if (!err) {
-        //         console.log("Bot sent a word count reply.");
-        //     }
-        // });
+        console.log("Total words: " + totalWords);
+
+        let botMessage = "Total words of all time: " + totalWords;
+        API.Bots.post(ACCESS_TOKEN, BOT_ID, botMessage, opts, function (err, ret) {
+            if (!err) {
+                console.log("Bot sent a word count reply.");
+            }
+        });
     }
 }
 
+export const countWords = async function (messageTemp) {
+    let totalWords = 0;
+    for (let message of messageTemp.messages) {
+        let text = message.text;
+        totalWords += text.trim().split(/\s+/).length;
+    }
+    console.log("Count Words: " + totalWords);
 
+    return totalWords
+
+}
 

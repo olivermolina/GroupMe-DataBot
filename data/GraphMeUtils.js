@@ -24,11 +24,20 @@ export const postBotMessage = async function (req) {
         botMessage = randomText[id];
         consoleMessage = "Bot sent hi reply.";
     } else if ("user" === sender_type && text.includes("/wordcount")) {
+        let textArray =text.split(" ");
         let messages = await getAllMessages();
-        let totalWords = await countWords(messages);
-        botMessage = "Total words of all time: " + totalWords;
+
+        console.log(textArray.length);
+        if (textArray.length > 1) {
+            let word = textArray[1];
+            let wordCount = await groupMeWordCount(messages, word);
+            botMessage =  "\"" + word + "\" was said " + wordCount.toString() + " times";
+        } else {
+            let totalWords = countWords(messages);
+            botMessage = "Total words of all time: " + totalWords;
+        }
         consoleMessage = "Bot sent a word count reply.";
-    }  else if ("user" === sender_type && text.includes("/hearts")) {
+    } else if ("user" === sender_type && text.includes("/hearts")) {
         let messages = await getAllMessages();
         let groupDetails = await helpers.callGroupDetails(ACCESS_TOKEN);
         let members = groupDetails.members;
@@ -95,7 +104,7 @@ export const getAllMessages = async function () {
     return messages;
 }
 
-export const countWords = async function (messages) {
+export const countWords = function (messages) {
     let totalWords = 0;
     for (let message of messages) {
         let text = message.text;
@@ -103,5 +112,16 @@ export const countWords = async function (messages) {
     }
     return totalWords;
 
+}
+
+export const groupMeWordCount = function (messages, word) {
+    let wordsCount = 0;
+    for (let message of messages) {
+        let text = message.text;
+        if (text.includes(word)) {
+            wordsCount++;
+        }
+    }
+    return wordsCount;
 }
 

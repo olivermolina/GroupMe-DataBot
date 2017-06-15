@@ -52,7 +52,7 @@ export const getAllMessages = async function () {
     console.log("Get messages.");
     let messageTemp = await helpers.callGetMessages({group_id: GROUP_ID, token: ACCESS_TOKEN, before_id: 0});
     let messageCount = messageTemp.count;
-    messages.push(messageTemp.messages);
+    messages = messageTemp.messages;
 
     console.log(messageTemp.count);
     console.log(messageTemp.messages.length);
@@ -68,7 +68,7 @@ export const getAllMessages = async function () {
                 });
                 console.log("Next message count: " + messageTemp.count + " -- " + messageTemp.messages.length);
                 beforeId = messageTemp.messages[messageTemp.messages.length - 1].id;
-                messages.push(messageTemp.messages);
+                 Array.prototype.push.apply(messages, messageTemp.messages);
             }
         }
     }
